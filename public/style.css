@@ -1,0 +1,96 @@
+/* Changes position of image */
+img  {
+  display: block;
+  margin: 0 auto;
+}
+
+body {
+  text-align: center;
+  margin: 0 auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Top 50 button from W3 schools */
+.button1 {
+    background-color: #4CAF70;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+/* Search button from W3 schools */
+.button2 {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+/* Input form for the search bar from W3 schools */
+input[type=text] {
+    width: 75;
+    padding: 15px 32px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 4px solid #4CAF50;
+    border-radius: 10px;
+    background-image: url('http://simpleicon.com/wp-content/uploads/music-note-1.png');
+    background-size: 20px 20px;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+}
+
+/* Changes the background color of the input form while in use */
+input[type=text]:focus {
+    background-color: lightgreen;
+}
+
+/* Create two equal columns that floats next to each other; all following code from W3 schools */
+.column1 {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  border-style: solid;
+  border-radius: 6px;
+}
+
+.column2 {
+  float: right;
+  width: 50%;
+  padding: 10px;
+  border-style: solid;
+  border-radius: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}

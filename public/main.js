@@ -1,69 +1,107 @@
 const $inputField = $('#input');
 const $searchButton = $('#search');
 const $popularButton = $('#popular');
-const $responseField = $('#responseField');
-var table;
+const $searchTable = $('#myTable2');
+const $popularTable= $('#myTable');
+const $searchLabel = $('#searchLabel');
 
-/*
+
+// Immediately hides empty columns and data to be shown later (when data is requested)
+$(document).ready(function() {
+  $('.column1').hide();
+  $('.column2').hide();
+});
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+function search() {
+  $('.column2').show();
+  searchTune();
+
+  // Search button and input form are hidden to prevent multiple data table error
+  $('.button2').hide();
+  $('#input').hide();
+  return false;  
+}
+
+function popular() {
+  $('.column1').show();
+  popularTunes();
+
+  // Top 50 button is hidden to prevent multiple data table error
+  $('.button1').hide();
+  return false;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+// Function which calls DataTables plug-in to render information from AJAX call
 function searchTune() {
-  const searchURL = "https://thesession.org/tunes/search?q=" + $inputField + "&format=json";
+  const searchURL = "https://thesession.org/tunes/search?q=" + $inputField.val() + "&format=json&perpage=20";
+
+  // Changes the title so the searched term can be seen
+  $searchLabel.append("Search for '" + $inputField.val() + "'"); 
 
   $.ajax({
     url: searchURL,
     type: 'GET',
     dataType: 'json',
-
+    
     success(response) {
-      $(response.tunes).ready(function(){
-        $('#myTable').DataTable();
-      });
-    },
-    error(jqXHR, status, errorThrown) {
-      console.log(jqXHR);
-    }  
-  });
-}
-*/
+      $(response).ready(function(){
+        let dataSet = [];
+        let i = 0;
 
-function search() {
-  $responseField.empty();
-  searchTune();
-  return false;  
-}
+        // Data is in nonstandard JSON, so the specific sub-object must be passed into an array 
+        // to be parsed by the DataTables plug-in
+        for (let obj in response.tunes) {
+          let tune2 = [i++,
+                      response.tunes[obj].id,
+                      response.tunes[obj].name,
+                      response.tunes[obj].type];
+          
+          dataSet.push(tune2);
+          // Use 'append' for this
+        }
+        $searchTable.DataTable({
+          data: dataSet,
+          columns: [{ title: "Index" },
+                    { title: "ID" },
+                    { title: "Name"},
+                    { title: "Type"}],
+          columnDefs: 
+                   [{ "targets": [ 0 ],  // Index
+                      "visible": false,
+                      "searchable": false },
 
-function searchTune() {
-  const searchURL = "https://thesession.org/tunes/search?q=" + $inputField + "&format=json";
-  const urlWithKey = url + '?key=' + apiKey;
-  const searchTerm = $inputField.val();
+                    { "targets": [ 1 ],  // ID
+                      "visible": false,
+                      "searchable": false },  
 
-  $.ajax({
-    url: searchURL, 
-    type: 'GET', 
-    //data: JSON.stringify({longUrl: urlToShorten}), 
-    dataType: 'json', 
-    contentType: 'application/json', 
+                    { "targets": [ 2 ],  // Name
+                      "mRender": function ( data, type, full ) {
+                         return '<a id="tune" href="https://thesession.org/tunes/' + full[1] + '">' + data + '</a>';
+                      }
+                    }]
+         });
+    })},
 
-    success(response) {
-      console.log(response);
-      $(response["tunes"]).ready(function(){
-        $('#myTable').DataTable();
-      }); 
-    },  
     error(jqXHR, status, errorThrown) {
       console.log(jqXHR);
     }
-  }); 
+  });
 }
 
-function popular() {
-  $responseField.empty();
-  
-  popularTunes();
-  return false;
-}
 
+// Function which calls DataTables plug-in to render information from AJAX call
 function popularTunes() {
-  const popurl = "https://thesession.org/tunes/popular?format=json&perpage=10";
+  const popurl = "https://thesession.org/tunes/popular?format=json&perpage=50";
 
   $.ajax({
     url: popurl,
@@ -72,20 +110,47 @@ function popularTunes() {
 
     success(response) {
       $(response).ready(function(){
-       	var dataSet = [];
-	for (var obj in response.tunes) {
-	  var tune = [response.tunes[obj].name,obj.type,obj.tunebooks];
+        let dataSet = [];
+        let i = 0;
+
+        // Data is in nonstandard JSON, so the specific sub-object must be passed into an array 
+        // to be parsed by the DataTables plug-in
+        for (let obj in response.tunes) {
+          let tune = [i++,
+                      response.tunes[obj].id,
+                      response.tunes[obj].name,
+                      response.tunes[obj].type,
+                      response.tunes[obj].tunebooks];
+
 	  dataSet.push(tune);
-          // Use 'append' for this
 	}
-	 $('#myTable').DataTable({
-		data: dataSet,
-		columns:
-		[
-			{ title: "Name"},
-			{ title: "Type"},
-			{ title: "Tunebooks"}
-     		]
+	$popularTable.DataTable({
+	  data: dataSet,
+	  columns: [{ title: "Index" },
+                    { title: "ID" },
+                    { title: "Name"},
+                    { title: "Type"},
+                    { title: "In X Tunebooks"}],
+
+              
+          columnDefs: [{ "targets": [ 0 ],  // Index
+                         "visible": false,
+                         "searchable": false }, 
+
+                       { "targets": [ 1 ],  // ID
+                         "visible": false,
+                         "searchable": false },  
+
+                       { "targets": [ 2 ],  // Name
+
+                         // Makes all name column elements link to their respective pages on TheSession.org
+                         "mRender": function ( data, type, full ) {
+                            return '<a id="tune" href="https://thesession.org/tunes/' + full[1] + '">' + data + '</a>';
+                         }
+                       },
+
+                       { "targets": [ 4 ],  // Number of Tunebooks a specific tune is in
+                         "searchable": false }]
 	 });
     })},
 
@@ -95,6 +160,10 @@ function popularTunes() {
   }); 
 }
 
-//$searchButton.
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////
+
+
 $searchButton.click(search);
 $popularButton.click(popular);

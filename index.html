@@ -1,55 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Tune Grabber</title>
-  <style href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"></style>
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <title>Tune Finder</title>
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="public/style.css" rel="stylesheet">
+  </head>
 
-<body>
-  <header>
-    <img src="http://steampacket.ownit.nu/johnnydoran.jpg" class="logo" />
-
-  </header>
-  <main id="main">
+  <body>
+    <div title="The great Pavee piper, Johnny Doran">
+      <img src="http://steampacket.ownit.nu/johnnydoran.jpg" height=132 width=102 id="logo"/>
+    </div>
+    
     <div class="container">
 
-      <h1>Search</h1>
+      <h1>Tune Finder</h1>
 
-      <form id="form" autocomplete="on">
-        <input type="text" id="input" value="">
-        <button id="search">Search by tune: </button>
-        <button id="popular">Top 50 Tunes</button>
+      <form id="form" autocomplete="off">
+        <button id="popular" class="button1">Top 50 Tunes</button>
+        <button id="search" class="button2">Search by tune: </button>
+        <input type="text" id="input"></input>
       </form>
 
-      <div id="responseField">
+      <div class="row">
+        <div class="column1" style="background-color: #4CAF70;">
+          <h2>Top 50 Tunes</h2>
+          <table id="myTable" class="display" width="100%"></table>
+        </div>
 
+        <div class="column2" style="background-color: #4CAF50;">
+          <h2 id="searchLabel"></h2>
+          <table id="myTable2" class="display" width="100%"></table>
+        </div>
       </div>
-      <table id="myTable" class="display">
+    </div>  
 
-        <!-- Should I add handlebars below? -->
-    <table id="myTable" class="display" width="100%">
-      <thead>
-        <tr>ID</tr>
-        <tr>Name</tr>
-        <tr>URL</tr>
-        <tr>Member</tr>
-        <tr>Date</tr>
-        <tr>Type</tr>
-        <tr>Tunebooks</tr>
-      </thead>
-    </table>
-    </div>
-  </main>
+    <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
+    <script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
+    <script src="public/main.js"></script>
 
-
-  
-
-  <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
-  <script src="public/main.js"></script>
-  <script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
-</body>
+    <h6>This page pulls information from TheSession.org</h6>
+  </body>
 </html>
 
