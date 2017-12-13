@@ -13,10 +13,6 @@ body {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-}
-
 /* Top 50 button from W3 schools */
 .button1 {
     background-color: #4CAF70;
@@ -64,6 +60,22 @@ input[type=text]:focus {
     background-color: lightgreen;
 }
 
+.buttoncolumn1 {
+  float: left;
+  padding-left: 30%;
+}
+
+.buttoncolumn2 {
+  float: left;
+  padding-left: 1%;
+}
+
+.buttonrow:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /* Create two equal columns that floats next to each other; all following code from W3 schools */
 .column1 {
   float: left;
@@ -90,7 +102,19 @@ input[type=text]:focus {
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media (max-width: 600px) {
-  .column {
+  .columni1 {
     width: 100%;
+  }
+
+  .column2 {
+    width: 100%;
+  }
+
+  .buttoncolumn1 {
+    width: 50%;
+  }
+
+  .buttoncolumn2 {
+    width: 50%;
   }
 }
