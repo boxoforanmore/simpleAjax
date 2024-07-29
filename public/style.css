@@ -2,6 +2,8 @@
 img  {
   display: block;
   margin: 0 auto;
+  width: 12rem;
+  padding-top: 2rem;
 }
 
 body {
